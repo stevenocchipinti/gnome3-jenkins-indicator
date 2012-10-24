@@ -574,9 +574,12 @@ const JenkinsIndicator = new Lang.Class({
 
 		for( var i=0 ; i<jobs.length ; ++i )
 		{
-			// filter job if user decided not to show jobs with this state (in settings dialog)
-			if( this.settings[jobStates.getFilter(jobs[i].color)] )
-				filteredJobs[filteredJobs.length] = jobs[i]
+			// filter jobs based on user settings ('state' or 'selected jobs')
+            if (this.settings["selected_projects"].split(/\W*,\W*/).indexOf(jobs[i].name) >= 0 &&
+                this.settings[jobStates.getFilter(jobs[i].color)])
+            {
+              filteredJobs[filteredJobs.length] = jobs[i]
+            }
 		}
 
 		return filteredJobs;

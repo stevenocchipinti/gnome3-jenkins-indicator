@@ -224,6 +224,20 @@ function addTabPanel(notebook, server_num)
         // show aborted jobs
         vboxFilters.add(buildIconSwitchSetting("grey", _('Show aborted jobs'), 'show_aborted_jobs', server_num));
     vbox.add(vboxFilters);
+
+      // server name
+      let hboxSelectedProjects = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL});
+      let labelSelectedProjects = new Gtk.Label({label: _("Selected projects (comma delimited list)"), xalign: 0});
+      let inputSelectedProjects = new Gtk.Entry({ hexpand: true, text: settingsJSON['servers'][server_num]['selected_projects'] });
+
+      inputSelectedProjects.connect("changed", Lang.bind(this, function(input){
+        updateServerSetting(server_num, "selected_projects", input.text);
+      }));
+
+      hboxSelectedProjects.pack_start(labelSelectedProjects, true, true, 0);
+      hboxSelectedProjects.add(inputSelectedProjects);
+      vboxFilters.add(hboxSelectedProjects);
+
     
     // button to remove tab
     let iconRemoveServer = new Gtk.Image({file: Me.dir.get_path() + "/icons/prefs/stop.png"});
